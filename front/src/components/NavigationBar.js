@@ -48,6 +48,9 @@ const NavigationBar = ({ user, handleThemeSwitch, theme }) => {
         {user === null && <Navbar.Link href="/login">Create Post</Navbar.Link>}
         {user && <Navbar.Link href="/create">Create Post</Navbar.Link>}
 
+        {user === null && <Navbar.Link href="/login">Scan Item</Navbar.Link>}
+        {user && <Navbar.Link href="/scanner">Scan Item</Navbar.Link>}
+
         {user === null && (
           <Navbar.Link className="font-bold text-sky-400" href="/login">
             Log In

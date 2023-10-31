@@ -22,6 +22,7 @@ import RegisterUser from "./components/RegisterUser";
 import About from "./components/About";
 import ErrorPage from "./components/ErrorPage";
 import BlogEdit from "./components/BlogEdit";
+import Scanner from "./components/Scanner";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -94,6 +95,7 @@ const App = () => {
             <Route path="/register" element={<RegisterUser />} />
             <Route path="/about" element={<About />} />
             <Route path="*" element={<ErrorPage />} />
+            <Route path="/scanner" element={<Scanner />} />
             <Route path="/posts/edit/:id" element={<BlogEdit blog={blog1} />} />
           </Routes>
         </div>
