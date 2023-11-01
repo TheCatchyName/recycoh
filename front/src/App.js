@@ -23,6 +23,8 @@ import About from "./components/About";
 import ErrorPage from "./components/ErrorPage";
 import BlogEdit from "./components/BlogEdit";
 import Scanner from "./components/Scanner";
+import Map from "./components/Map";
+import MapReactTest from "./components/MapReactTest";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -96,6 +98,8 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="*" element={<ErrorPage />} />
             <Route path="/scanner" element={<Scanner />} />
+            <Route path="/map" element={<Map />} />
+            <Route path="/mapreacttest" element={<MapReactTest />} />
             <Route path="/posts/edit/:id" element={<BlogEdit blog={blog1} />} />
           </Routes>
         </div>

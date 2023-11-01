@@ -1,13 +1,13 @@
 let map, infoWindow;
-      const SG_BOUNDS = {
-        north: 1.493,
-        south: 1.129,
-        west: 103.557,
-        east: 104.131,
-      };
-      const SINGAPORE = { lat: 1.2964202165603638, lng: 103.85188293457031 };
+const SG_BOUNDS = {
+  north: 1.493,
+  south: 1.129,
+  west: 103.557,
+  east: 104.131,
+};
+const SINGAPORE = { lat: 1.2964202165603638, lng: 103.85188293457031 };
 
-      function initMap() {
+function initMap() {
         // Marker Coordinates here
         var markers2 = [
           {type: "3-in-1 Bin",
