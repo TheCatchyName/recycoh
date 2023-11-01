@@ -23,6 +23,7 @@ import About from "./components/About";
 import ErrorPage from "./components/ErrorPage";
 import BlogEdit from "./components/BlogEdit";
 import Scanner from "./components/Scanner";
+import Dashboard from "./components/Dashboard";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -97,6 +98,7 @@ const App = () => {
             <Route path="*" element={<ErrorPage />} />
             <Route path="/scanner" element={<Scanner />} />
             <Route path="/posts/edit/:id" element={<BlogEdit blog={blog1} />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </div>
         <Notif />
