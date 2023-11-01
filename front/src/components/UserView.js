@@ -21,7 +21,7 @@ const UserView = ({ userInView }) => {
           {totalVotes} likes
         </h2>
         <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-          Posts added by {userInView.name}
+          Posts added by {userInView.username}
         </h2>
         {userInView.blogs.map((blog) => (
           <Blog key={blog.id} blog={blog} />
