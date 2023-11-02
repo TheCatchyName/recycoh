@@ -6,11 +6,11 @@ import { setNotification } from "../reducers/notificationReducer";
 import { TextInput, Label, Button, Textarea } from "flowbite-react";
 import BlogFooter from "./BlogFooter";
 
-const NewProduct = () => {
+const NewProduct = (props) => {
   const dispatch = useDispatch();
   const [newName, setNewName] = useState("");
   const [newBrand, setNewBrand] = useState("");
-  const [newBarcode, setNewBarcode] = useState("");
+//   const [newBarcode, setNewBarcode] = useState("");
   const [newCategory, setNewCategory] = useState("");
 
   const navigate = useNavigate();
@@ -22,12 +22,12 @@ const NewProduct = () => {
       brand: newBrand,
       category: newCategory,
       dateCreated: new Date(),
-      barcode: newBarcode,
+      barcode: props.barcode,
     };
     addNewProduct(productObject);
     setNewBrand("");
     setNewName("");
-    setNewBarcode("");
+    // setNewBarcode("");
     setNewCategory("");
   };
 
@@ -93,9 +93,9 @@ const NewProduct = () => {
                   </div>
                   <Textarea
                     required={true}
-                    value={newBarcode}
+                    value={props.barcode}
                     placeholder="Barcode number"
-                    onChange={({ target }) => setNewBarcode(target.value)}
+                    // onChange={({ target }) => setNewBarcode(target.value)}
                   />
                 </div>
                 <div>
