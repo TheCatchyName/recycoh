@@ -1,6 +1,7 @@
 import * as React from "react";
 import loginService from "../services/login";
 import blogService from "../services/blogs";
+import productService from "../services/products"
 import { useDispatch } from "react-redux";
 import { setUser } from "../reducers/userReducer";
 import { useState } from "react";
@@ -21,6 +22,7 @@ const SignIn = () => {
       const user = await loginService.login({ username, password });
       window.localStorage.setItem("AKAppSessionID", JSON.stringify(user));
       blogService.setToken(user.token);
+      productService.setToken(user.token);
       dispatch(setUser(user));
       navigate("/posts");
     } catch (exception) {
