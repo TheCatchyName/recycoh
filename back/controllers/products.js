@@ -50,10 +50,11 @@ productRouter.post("/", async (request, response, next) => {
   const product = new Product({
     name: body.name,
     brand: body.brand,
+    category: body.category,
     dateCreated: body.dateCreated,
     barcode: body.barcode,
     // comments: body.comments,
-    // user: user._id,
+    user: user._id,
   });
   console.log("product obj created")
   try {

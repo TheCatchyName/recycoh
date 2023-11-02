@@ -11,6 +11,7 @@ const NewProduct = () => {
   const [newName, setNewName] = useState("");
   const [newBrand, setNewBrand] = useState("");
   const [newBarcode, setNewBarcode] = useState("");
+  const [newCategory, setNewCategory] = useState("");
 
   const navigate = useNavigate();
 
@@ -19,6 +20,7 @@ const NewProduct = () => {
     const productObject = {
       name: newName,
       brand: newBrand,
+      category: newCategory,
       dateCreated: new Date(),
       barcode: newBarcode,
     };
@@ -26,6 +28,7 @@ const NewProduct = () => {
     setNewBrand("");
     setNewName("");
     setNewBarcode("");
+    setNewCategory("");
   };
 
   const addNewProduct = async (productObject) => {
@@ -93,6 +96,17 @@ const NewProduct = () => {
                     value={newBarcode}
                     placeholder="Barcode number"
                     onChange={({ target }) => setNewBarcode(target.value)}
+                  />
+                </div>
+                <div>
+                  <div className="mb-2 block">
+                    <Label htmlFor="product-category" value="Product Category" />
+                  </div>
+                  <Textarea
+                    required={true}
+                    value={newCategory}
+                    placeholder="Category"
+                    onChange={({ target }) => setNewCategory(target.value)}
                   />
                 </div>
 

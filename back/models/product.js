@@ -14,7 +14,7 @@ componentSchema.set("toJSON", {
 const productSchema = new mongoose.Schema({
   name: String,
   brand: String,
-//   category: String,
+  category: String,
   dateCreated: Date,
   barcode: String,
   user: {
