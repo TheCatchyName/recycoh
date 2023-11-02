@@ -3,6 +3,11 @@ const baseUrl = "/api/products";
 
 let token = null;
 
+const getByBarcode = async (barcode) => {
+    const response = await axios.get(`${baseUrl}/barcode/${barcode}`);
+    return response.data;
+  };
+
 const setToken = (newToken) => {
   token = `bearer ${newToken}`;
 };
@@ -51,4 +56,4 @@ const postComment = async (comment, id) => {
   return response.data;
 };
 
-export default { getAll, create, update, remove, setToken, postComment };
+export default { getAll, create, update, remove, setToken, postComment, getByBarcode };

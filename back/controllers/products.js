@@ -17,6 +17,23 @@ productRouter.get("/:id", async (request, response) => {
     response.status(404).end();
   }
 });
+
+productRouter.get('/barcode/:barcode', async (request, response) => {
+    const barcode = request.params.barcode;
+  
+    try {
+      const products = await Product.find({ barcode }).populate('user', { username: 1, name: 1 });
+  
+      if (products.length === 0) {
+        return response.status(404).json({ message: 'No products found with that barcode' });
+      }
+  
+      response.json(products);
+    } catch (error) {
+      response.status(500).json({ error: 'Server Error' });
+    }
+  });
+
 const getTokenFrom = (request) => {
   const authorization = request.get("authorization");
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {

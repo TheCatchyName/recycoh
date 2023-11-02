@@ -3,14 +3,20 @@ import productService from "../services/products";
 
 const productSlice = createSlice({
   name: "products",
-  initialState: [],
+  initialState: {
+    products: [],
+    loading: false,
+    error: null,
+  },
   reducers: {
     create(state, action) {
       const product = action.payload;
       state.push(product);
     },
     setProducts(state, action) {
-      return action.payload;
+      state.products = action.payload;
+      state.loading = false;
+      state.error = null;
     },
     edit(state, action) {
       const updatedProduct = action.payload;
@@ -29,16 +35,38 @@ const productSlice = createSlice({
         item.id === updatedProduct.id ? updatedProduct : item
       );
     },
+
+    productsRequest(state) {
+      state.loading = true;
+      state.error = null;
+    },
+
+    productsRequestFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const { create, setProducts, edit, remove } = productSlice.actions;
+export const {
+    create,
+    setProducts,
+    edit,
+    remove,
+    productsRequest,
+    productsRequestFailure,
+  } = productSlice.actions;
 
 export const initializeProducts = () => {
-  return async (dispatch) => {
-    const products = await productService.getAll();
-    dispatch(setProducts(products));
-  };
+    return async (dispatch) => {
+      try {
+        dispatch(productsRequest());
+        const products = await productService.getAll();
+        dispatch(setProducts(products));
+      } catch (error) {
+        dispatch(productsRequestFailure(error));
+      }
+    };
 };
 export const createProduct = (product) => {
   return async (dispatch) => {
@@ -71,4 +99,16 @@ export const commentProduct = (comment, id) => {
   };
 };
 
+
+export const fetchProductsByBarcode = (barcode) => {
+    return async (dispatch) => {
+      try {
+        dispatch(productsRequest());
+        const products = await productService.getByBarcode(barcode);
+        dispatch(setProducts(products));
+      } catch (error) {
+        dispatch(productsRequestFailure(error));
+      }
+    };
+  };
 export default productSlice.reducer;

@@ -30,6 +30,7 @@ const App = () => {
   const user = useSelector((state) => state.users);
   const blogs = useSelector((state) => state.blogs);
   const allUsers = useSelector((state) => state.allUsers);
+  const products = useSelector((state) => state.products);
   const [theme, setTheme] = useState(
     localStorage.getItem("color-theme")
       ? JSON.parse(localStorage.getItem("color-theme"))
