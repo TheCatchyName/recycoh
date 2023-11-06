@@ -10,42 +10,48 @@ const Scanner = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products) || [];
   const [isNoProductFound, setIsNoProductFound] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsNoProductFound(products.length === 0 && scannedBarcode !== "");
   }, [products, scannedBarcode]);
 
   useEffect(() => {
-    // Perform checks inside a separate useEffect to monitor changes in scannedBarcode
     if (scannedBarcode && scannedBarcode !== "") {
-      dispatch(fetchProductsByBarcode(scannedBarcode));
+      setIsLoading(true);
+      dispatch(fetchProductsByBarcode(scannedBarcode))
+        .then(() => {
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
     }
   }, [scannedBarcode, dispatch]);
-
-  const handleBarcodeScan = (err, result) => {
-    if (result) {
-      setScannedBarcode(result.text);
-    }
-  };
 
   return (
     <div className="dark:bg-gray-800 py-1">
       {scannedBarcode === "" ? (
         <BarcodeScannerComponent
+            facingMode="user" // or environment for rear camera
           width={500}
           height={500}
-          onUpdate={handleBarcodeScan}
+          onUpdate={(err, result) => {
+            if (result) setScannedBarcode(result.text);
+          }}
         />
       ) : (
         <div>
-          {products.length > 0 ? (
-            products.map((product) => (
-              <Product key={product.id} product={product} />
-            ))
-          ) : isNoProductFound ? (
-            <NewProduct barcode={scannedBarcode} />
+          {isLoading ? (
+            <p>Loading...</p>
           ) : (
-            <p>Loading...</p> // Show loading indicator or handle loading state
+            <>
+              {products.length > 0 ? (
+                products.map((product) => (
+                  <Product key={product.id} product={product} />
+                ))
+              ) : <NewProduct barcode={scannedBarcode} />}
+            </>
           )}
         </div>
       )}
