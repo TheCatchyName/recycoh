@@ -4,13 +4,6 @@ import GoogleMapReact from 'google-map-react';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
-const onMarkerClick = (e, { markerId, lat, lng }) => {
-    console.log('This is ->', markerId)
-
-    // inside the map instance you can call any google maps method
-    // ref. https://developers.google.com/maps/documentation/javascript/reference?hl=it
-}
-
 const handleApiLoaded = (map, maps) => {
     // use map and maps objects
     var markers2 = [
@@ -208,9 +201,10 @@ const Map = () => {
                 yesIWantToUseGoogleMapApiInternals
                 onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
             >
-
-
             </GoogleMapReact>
+            <AnyReactComponent
+            text="Filter Menu"
+            />
         </div>
 
     );
