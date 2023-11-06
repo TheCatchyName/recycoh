@@ -9,12 +9,7 @@ const Scanner = () => {
   const [scannedBarcode, setScannedBarcode] = useState("");
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products) || [];
-  const [isNoProductFound, setIsNoProductFound] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    setIsNoProductFound(products.length === 0 && scannedBarcode !== "");
-  }, [products, scannedBarcode]);
 
   useEffect(() => {
     if (scannedBarcode && scannedBarcode !== "") {
@@ -33,7 +28,7 @@ const Scanner = () => {
     <div className="dark:bg-gray-800 py-1">
       {scannedBarcode === "" ? (
         <BarcodeScannerComponent
-            facingMode="user" // or environment for rear camera
+          facingMode="user" // or environment for rear camera
           width={500}
           height={500}
           onUpdate={(err, result) => {
