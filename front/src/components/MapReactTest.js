@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 
 const MapWithFilter = () => {
   const [map, setMap] = useState(null);
@@ -33,6 +33,11 @@ const MapWithFilter = () => {
     marginRight: '10px',
   };
 
+  const [activeMarker, setActiveMarker] = useState(null);
+
+  const handleMarkerClick = (marker) => {
+    setActiveMarker(marker === activeMarker ? null : marker);
+  };
 
   const handleFilterChange = (filter) => {
     if (Array.isArray(filter)) {
@@ -66,7 +71,7 @@ const MapWithFilter = () => {
         { lat: 1.4529199130895931, lng: 103.82326715734955 },
         { lat: 1.2767613670863402, lng: 103.82506496180038 },
         { lat: 1.3032421147706623, lng: 103.85421534654236 }],
-        type: ['ICT equipment', 'Batteries', 'Lamps'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/3in10ac5e8784cea41f8a1781468497aa9c1.tmb-thumb36.png" }
+        name: "3-in-1 Bin", type: ['ICT equipment', 'Batteries', 'Lamps'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/3in10ac5e8784cea41f8a1781468497aa9c1.tmb-thumb36.png" }
       },
       {
         position: [{ lat: 1.283854644, lng: 103.8586749 },
@@ -76,7 +81,7 @@ const MapWithFilter = () => {
         { lat: 1.400109239334972, lng: 103.89548350089622 },
         { lat: 1.3245366711485158, lng: 103.84480650573872 },
         { lat: 1.340177141908926, lng: 103.77879851618107 }],
-        type: ['ICT equipment', 'Batteries'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/manned.tmb-thumb36.png" }
+        name: "Counter Collection", type: ['ICT equipment', 'Batteries'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/manned.tmb-thumb36.png" }
       },
       {
         position: [{ lat: 1.304853421, lng: 103.8238835 },
@@ -88,19 +93,18 @@ const MapWithFilter = () => {
         { lat: 1.2946464494518617, lng: 103.84107584209805 },
         { lat: 1.3256852669826862, lng: 103.81428517786044 },
         { lat: 1.2971049598846294, lng: 103.78417187586894 },
-        { lat: 1.3936599371829983, lng: 103.74391167549483 }], 
-        type: ['Batteries', 'Lamps'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/batterybulb.tmb-thumb36.png" }
+        { lat: 1.3936599371829983, lng: 103.74391167549483 }],
+        name: "Battery & Bulb Bin", type: ['Batteries', 'Lamps'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/batterybulb.tmb-thumb36.png" }
       },
       {
-        position: { lat: 1.379091351, lng: 103.7728811 }, type: ['Batteries'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/battery9bb6a94ee027494dac3f729c772dcc8a.tmb-thumb36.png" }
+        position: { lat: 1.379091351, lng: 103.7728811 }, name: "Battery-only Bin", type: ['Batteries'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/battery9bb6a94ee027494dac3f729c772dcc8a.tmb-thumb36.png" }
       },
       {
-        position: { lat: 1.346115482, lng: 103.7201662 }, type: ['Regulated consumer products'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/edrive3b291104da544e2f9f6c5ae1d98fcadf.tmb-thumb36.png" }
+        position: { lat: 1.346115482, lng: 103.7201662 }, name: "E-Waste Collection Drive", type: ['Regulated consumer products'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/edrive3b291104da544e2f9f6c5ae1d98fcadf.tmb-thumb36.png" }
       },
       {
-        position: { lat: 1.290661046, lng: 103.8068437 }, type: ['Non-regulated electronics'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/1850.tmb-thumb36.png" }
+        position: { lat: 1.290661046, lng: 103.8068437 }, name: "Non-Regulated E-Waste Bin", type: ['Non-regulated electronics'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/1850.tmb-thumb36.png" }
       },
-      // Add more markers with positions and types
     ];
 
     setMarkers(markerData);
@@ -130,17 +134,27 @@ const MapWithFilter = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          // Set the user's location
           setUserLocation({
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           });
+
+          // Set the map center to the user's location
+          if (map) {
+            map.panTo({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          }
         },
         (error) => {
           console.error('Error getting user location:', error);
         }
       );
     }
-  }, []);
+  }, [map]);
+
 
   return (
     <div>
@@ -220,15 +234,48 @@ const MapWithFilter = () => {
             ],
           }}
         >
+          {userLocation && (
+            <Marker
+              position={userLocation}
+              icon={{
+                // You can customize the marker icon here
+                scaledSize: new window.google.maps.Size(40, 40), // Adjust the size as needed
+              }}
+            />
+          )}
           {filteredMarkers.map((marker, index) => {
             if (Array.isArray(marker.position)) {
               // Handle array of positions
               return marker.position.map((position, positionIndex) => (
-                <Marker key={`${index}-${positionIndex}`} position={position} icon={marker.icon} />
+                <Marker
+                  key={`${index}-${positionIndex}`}
+                  position={position}
+                  icon={marker.icon}
+                  onClick={() => handleMarkerClick({ position, name: marker.name })}
+                >
+                  {activeMarker?.position === position && (
+                    <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+                      <div>{marker.name}</div>
+                    </InfoWindow>
+                  )}
+                </Marker>
               ));
             } else {
               // Single position
-              return <Marker key={index} position={marker.position} icon={marker.icon} />;
+              return (
+                <Marker
+                  key={index}
+                  position={marker.position}
+                  icon={marker.icon}
+                  onClick={() => handleMarkerClick({ position: marker.position, name: marker.name })}
+                >
+                  {activeMarker?.position === marker.position && (
+                    <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+                      <div>{marker.name}</div>
+                    </InfoWindow>
+                  )}
+                </Marker>
+              );
             }
           })}
         </GoogleMap>
