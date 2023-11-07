@@ -7,29 +7,60 @@ const MapWithFilter = () => {
   const [filteredMarkers, setFilteredMarkers] = useState([]);
   const [activeFilters, setActiveFilters] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
+  const filterMenuStyle = {
+    backgroundColor: '#f7f7f7',
+    padding: '10px',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+    marginRight: '20px',
+  };
+
+  const filterHeaderStyle = {
+    fontSize: '20px',
+    marginBottom: '10px',
+  };
+
+  const filterOptionStyle = {
+    marginBottom: '5px',
+  };
+
+  const labelStyle = {
+    fontWeight: '500',
+    marginLeft: '5px',
+    marginRight: '10px',
+  };
   
 
   const handleFilterChange = (filter) => {
-    if (activeFilters.includes(filter)) {
-      setActiveFilters(activeFilters.filter((item) => item !== filter));
-    } else {
-      setActiveFilters([...activeFilters, filter]);
+    if (Array.isArray(filter)) {
+      // For array filters, add each type to the activeFilters
+      setActiveFilters((prevFilters) => [...prevFilters, ...filter]);
+    } 
+    else {
+      if (activeFilters.includes(filter)) {
+        // For a single string filter, remove it from activeFilters
+        setActiveFilters(activeFilters.filter((item) => item !== filter));
+      } else {
+        setActiveFilters([...activeFilters, filter]);
+      }
     }
-
   };
 
   useEffect(() => {
     // Your marker data goes here
     const markerData = [
-      { position: { lat: 1.286331772, lng: 103.8275508 }, type: 'ICT equipment', icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/3in10ac5e8784cea41f8a1781468497aa9c1.tmb-thumb36.png"} 
+      { position: { lat: 1.286331772, lng: 103.8275508 }, type: ['ICT equipment', 'Batteries', 'Lamps'], icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/3in10ac5e8784cea41f8a1781468497aa9c1.tmb-thumb36.png"} 
         },
-      { position: { lat: 1.304853421, lng: 103.8238835 }, type: 'Lamps', icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/batterybulb.tmb-thumb36.png"}
+      { position: { lat: 1.283854644, lng: 103.8586749 }, type: ['ICT equipment', 'Batteries'], icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/manned.tmb-thumb36.png"}
       },
-      { position: { lat: 1.379091351, lng: 103.7728811 }, type: 'Batteries', icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/battery9bb6a94ee027494dac3f729c772dcc8a.tmb-thumb36.png"}
+      { position: { lat: 1.304853421, lng: 103.8238835 }, type: ['Batteries', 'Lamps'], icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/batterybulb.tmb-thumb36.png"}
       },
-      { position: { lat: 1.346115482, lng: 103.7201662 }, type: 'Regulated consumer products', icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/edrive3b291104da544e2f9f6c5ae1d98fcadf.tmb-thumb36.png"}
+      { position: { lat: 1.379091351, lng: 103.7728811 }, type: ['Batteries'], icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/battery9bb6a94ee027494dac3f729c772dcc8a.tmb-thumb36.png"}
       },
-      { position: { lat: 1.290661046, lng: 103.8068437 }, type: 'Non-regulated electronics', icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/1850.tmb-thumb36.png"}
+      { position: { lat: 1.346115482, lng: 103.7201662 }, type: ['Regulated consumer products'], icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/edrive3b291104da544e2f9f6c5ae1d98fcadf.tmb-thumb36.png"}
+      },
+      { position: { lat: 1.290661046, lng: 103.8068437 }, type: ['Non-regulated electronics'], icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/1850.tmb-thumb36.png"}
       },
       // Add more markers with positions and types
     ];
@@ -40,7 +71,14 @@ const MapWithFilter = () => {
 
   useEffect(() => {
     // Filter markers based on activeFilters
-    const filtered = markers.filter((marker) => activeFilters.includes(marker.type));
+    const filtered = markers.filter((marker) => {
+      // If the marker has an array of types, check if any type is in activeFilters
+      if (Array.isArray(marker.type)) {
+        return marker.type.some((type) => activeFilters.includes(type));
+      }
+      // For a single type, check if it's in activeFilters
+      return activeFilters.includes(marker.type);
+    });
     setFilteredMarkers(filtered);
     if (map) {
       map.fitBounds(
@@ -74,58 +112,57 @@ const MapWithFilter = () => {
 
   return (
     <div>
-      <div id="filterMenu">
-        <div id="filterHeader">Filter Menu</div>
-        <label>
+      <div id="filterMenu" style={filterMenuStyle}>
+        <div id="filterHeader" style={filterHeaderStyle}>Filter Menu</div>
+        <label style={filterOptionStyle}>
           <input
             type="checkbox"
             value="Batteries"
             checked={activeFilters.includes('Batteries')}
             onChange={() => handleFilterChange('Batteries')}
           />
-          Batteries
+          <span style={labelStyle}>Batteries</span>
         </label>
-        <label>
+        <label style={filterOptionStyle}>
           <input
             type="checkbox"
             value="Lamps"
             checked={activeFilters.includes('Lamps')}
             onChange={() => handleFilterChange('Lamps')}
           />
-          Lamps
+          <span style={labelStyle}>Lamps</span>
         </label>
-        <label>
+        <label style={filterOptionStyle}>
           <input
             type="checkbox"
             value="ICT equipment"
             checked={activeFilters.includes('ICT equipment')}
             onChange={() => handleFilterChange('ICT equipment')}
           />
-          ICT equipment
+          <span style={labelStyle}>ICT equipment</span>
         </label>
-        <label>
+        <label style={filterOptionStyle}>
           <input
             type="checkbox"
             value="Regulated consumer products"
             checked={activeFilters.includes('Regulated consumer products')}
             onChange={() => handleFilterChange('Regulated consumer products')}
           />
-          Regulated consumer products
+          <span style={labelStyle}>Regulated consumer products</span>
         </label>
-        <label>
+        <label style={filterOptionStyle}>
           <input
             type="checkbox"
             value="Non-regulated eletronics"
             checked={activeFilters.includes('Non-regulated electronics')}
             onChange={() => handleFilterChange('Non-regulated electronics')}
           />
-          Non-regulated eletronics
+          <span style={labelStyle}>Non-regulated eletronics</span>
         </label>
-        {/* Add more filter options as needed */}
       </div>
       <LoadScript googleMapsApiKey="AIzaSyCaiFYrSvV6tEk9ZqKToEXa2-orShEEuq4">
         <GoogleMap
-          mapContainerStyle={{ height: '400px', width: '100%' }}
+          mapContainerStyle={{ height: '600px', width: '100%' }}
           center={{ lat: 1.2964202165603638, lng: 103.85188293457031 }}
           zoom={15}
           onLoad={(map) => setMap(map)}
