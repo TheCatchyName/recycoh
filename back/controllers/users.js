@@ -8,6 +8,7 @@ usersRouter.get("/", async (request, response) => {
     content: 1,
     dateCreated: 1,
     likes: 1,
+    tag: 1,
   });
   response.json(users);
 });

@@ -170,6 +170,7 @@ const BlogView = ({ blog }) => {
               align="justify"
             >
               {blog.content}
+              {blog.tag}
             </p>
 
             <section className="not-format">

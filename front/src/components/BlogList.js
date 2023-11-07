@@ -22,6 +22,10 @@ const BlogList = () => {
         } else {
           return dateB - dateA;
         }
+      } else if (criteria === "comments") {
+        const commentsA = a.comments.length;
+        const commentsB = b.comments.length;
+        return order === "asc" ? commentsA - commentsB : commentsB - commentsA;
       } else {
         return 0;
       }
@@ -89,6 +93,7 @@ const BlogList = () => {
                 >
                   <option value="likes">Likes</option>
                   <option value="dateCreated">Recent</option>
+                  <option value="comments">Comments</option>
                 </Select>
               </div>
               <div>

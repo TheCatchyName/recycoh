@@ -10,6 +10,7 @@ const BlogEdit = ({ blog }) => {
   const dispatch = useDispatch();
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
+  const [newTag, setNewTag] = useState("");
 
   const navigate = useNavigate();
   if (blog === undefined) {
@@ -18,6 +19,7 @@ const BlogEdit = ({ blog }) => {
   if (blog && newTitle === "") {
     setNewTitle(blog.title);
     setNewContent(blog.content);
+    setNewTag(blog.tag);
   }
 
   const editBlog = (event) => {
@@ -27,10 +29,12 @@ const BlogEdit = ({ blog }) => {
       title: newTitle,
       content: newContent,
       dateCreated: new Date(),
+      tag: newTag,
     };
     editNewBlog(blogObject);
     setNewContent("");
     setNewTitle("");
+    setNewTag("");
   };
 
   const editNewBlog = async (blogObject) => {
@@ -88,6 +92,19 @@ const BlogEdit = ({ blog }) => {
                     placeholder="Text"
                     onChange={({ target }) => setNewContent(target.value)}
                     rows={10}
+                  />
+                </div>
+                <div>
+                  <div className="mb-2 block">
+                    <Label htmlFor="post-tag" value="Tag of Post" />
+                  </div>
+                  <TextInput
+                    id="post-tag"
+                    type="text"
+                    placeholder="A Meaningful Tag"
+                    required={false}
+                    value={newTag}
+                    onChange={({ target }) => setNewTag(target.value)}
                   />
                 </div>
 
