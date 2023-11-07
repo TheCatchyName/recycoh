@@ -7,6 +7,8 @@ const MapWithFilter = () => {
   const [filteredMarkers, setFilteredMarkers] = useState([]);
   const [activeFilters, setActiveFilters] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
+  const [initialCenter] = useState({ lat: 1.2964202165603638, lng: 103.85188293457031 });
+  const [initialZoom] = useState(15);
   const filterMenuStyle = {
     backgroundColor: '#f7f7f7',
     padding: '10px',
@@ -30,13 +32,13 @@ const MapWithFilter = () => {
     marginLeft: '5px',
     marginRight: '10px',
   };
-  
+
 
   const handleFilterChange = (filter) => {
     if (Array.isArray(filter)) {
       // For array filters, add each type to the activeFilters
       setActiveFilters((prevFilters) => [...prevFilters, ...filter]);
-    } 
+    }
     else {
       if (activeFilters.includes(filter)) {
         // For a single string filter, remove it from activeFilters
@@ -50,17 +52,53 @@ const MapWithFilter = () => {
   useEffect(() => {
     // Your marker data goes here
     const markerData = [
-      { position: { lat: 1.286331772, lng: 103.8275508 }, type: ['ICT equipment', 'Batteries', 'Lamps'], icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/3in10ac5e8784cea41f8a1781468497aa9c1.tmb-thumb36.png"} 
-        },
-      { position: { lat: 1.283854644, lng: 103.8586749 }, type: ['ICT equipment', 'Batteries'], icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/manned.tmb-thumb36.png"}
+      {
+        position: [{ lat: 1.286331772, lng: 103.8275508 },
+        { lat: 1.312290161236786, lng: 103.90481880983111 },
+        { lat: 1.3448050487758139, lng: 103.94926319740844 },
+        { lat: 1.3838674835726419, lng: 103.934507293052 },
+        { lat: 1.3908422744196434, lng: 103.89714340545356 },
+        { lat: 1.3758543300029509, lng: 103.86485611471429 },
+        { lat: 1.339159372857266, lng: 103.84112251030635 },
+        { lat: 1.3518801781995031, lng: 103.6823442253675 },
+        { lat: 1.4176335881739013, lng: 103.75929701060345 },
+        { lat: 1.4300734733771143, lng: 103.79355602127745 },
+        { lat: 1.4529199130895931, lng: 103.82326715734955 },
+        { lat: 1.2767613670863402, lng: 103.82506496180038 },
+        { lat: 1.3032421147706623, lng: 103.85421534654236 }],
+        type: ['ICT equipment', 'Batteries', 'Lamps'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/3in10ac5e8784cea41f8a1781468497aa9c1.tmb-thumb36.png" }
       },
-      { position: { lat: 1.304853421, lng: 103.8238835 }, type: ['Batteries', 'Lamps'], icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/batterybulb.tmb-thumb36.png"}
+      {
+        position: [{ lat: 1.283854644, lng: 103.8586749 },
+        { lat: 1.321790821531891, lng: 103.84379180580409 },
+        { lat: 1.339748105830236, lng: 103.77828353209907 },
+        { lat: 1.3249389100901663, lng: 103.89410863712217 },
+        { lat: 1.400109239334972, lng: 103.89548350089622 },
+        { lat: 1.3245366711485158, lng: 103.84480650573872 },
+        { lat: 1.340177141908926, lng: 103.77879851618107 }],
+        type: ['ICT equipment', 'Batteries'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/manned.tmb-thumb36.png" }
       },
-      { position: { lat: 1.379091351, lng: 103.7728811 }, type: ['Batteries'], icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/battery9bb6a94ee027494dac3f729c772dcc8a.tmb-thumb36.png"}
+      {
+        position: [{ lat: 1.304853421, lng: 103.8238835 },
+        { lat: 1.342581051639659, lng: 103.79429218037004 },
+        { lat: 1.3466629469903602, lng: 103.75564644121395 },
+        { lat: 1.3510290482284835, lng: 103.69850633340378 },
+        { lat: 1.3131801805303056, lng: 103.76889401477244 },
+        { lat: 1.3202554135493936, lng: 103.93675795370218 },
+        { lat: 1.2946464494518617, lng: 103.84107584209805 },
+        { lat: 1.3256852669826862, lng: 103.81428517786044 },
+        { lat: 1.2971049598846294, lng: 103.78417187586894 },
+        { lat: 1.3936599371829983, lng: 103.74391167549483 }], 
+        type: ['Batteries', 'Lamps'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/batterybulb.tmb-thumb36.png" }
       },
-      { position: { lat: 1.346115482, lng: 103.7201662 }, type: ['Regulated consumer products'], icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/edrive3b291104da544e2f9f6c5ae1d98fcadf.tmb-thumb36.png"}
+      {
+        position: { lat: 1.379091351, lng: 103.7728811 }, type: ['Batteries'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/battery9bb6a94ee027494dac3f729c772dcc8a.tmb-thumb36.png" }
       },
-      { position: { lat: 1.290661046, lng: 103.8068437 }, type: ['Non-regulated electronics'], icon: {url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/1850.tmb-thumb36.png"}
+      {
+        position: { lat: 1.346115482, lng: 103.7201662 }, type: ['Regulated consumer products'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/edrive3b291104da544e2f9f6c5ae1d98fcadf.tmb-thumb36.png" }
+      },
+      {
+        position: { lat: 1.290661046, lng: 103.8068437 }, type: ['Non-regulated electronics'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/1850.tmb-thumb36.png" }
       },
       // Add more markers with positions and types
     ];
@@ -72,24 +110,18 @@ const MapWithFilter = () => {
   useEffect(() => {
     // Filter markers based on activeFilters
     const filtered = markers.filter((marker) => {
-      // If the marker has an array of types, check if any type is in activeFilters
       if (Array.isArray(marker.type)) {
+        // Check if any type is in activeFilters
         return marker.type.some((type) => activeFilters.includes(type));
+      } else {
+        // For a single type or array of positions, check if it's in activeFilters
+        return activeFilters.includes(marker.type) || (
+          Array.isArray(marker.position) &&
+          marker.position.some((pos) => activeFilters.some((type) => type === marker.type))
+        );
       }
-      // For a single type, check if it's in activeFilters
-      return activeFilters.includes(marker.type);
     });
     setFilteredMarkers(filtered);
-    if (map) {
-      map.fitBounds(
-        new window.google.maps.LatLngBounds(
-          new window.google.maps.LatLng(1.493, 103.557),
-          new window.google.maps.LatLng(1.129, 104.131)
-        )
-      );
-      map.center = {userLocation}
-      map.zoom = 12
-    }
 
   }, [activeFilters, markers]);
 
@@ -157,14 +189,14 @@ const MapWithFilter = () => {
             checked={activeFilters.includes('Non-regulated electronics')}
             onChange={() => handleFilterChange('Non-regulated electronics')}
           />
-          <span style={labelStyle}>Non-regulated eletronics</span>
+          <span style={labelStyle}>Non-regulated electronics</span>
         </label>
       </div>
       <LoadScript googleMapsApiKey="AIzaSyCaiFYrSvV6tEk9ZqKToEXa2-orShEEuq4">
         <GoogleMap
           mapContainerStyle={{ height: '600px', width: '100%' }}
-          center={{ lat: 1.2964202165603638, lng: 103.85188293457031 }}
-          zoom={15}
+          center={initialCenter}
+          zoom={initialZoom}
           onLoad={(map) => setMap(map)}
           options={{
             restriction: {
@@ -187,11 +219,18 @@ const MapWithFilter = () => {
               },
             ],
           }}
-          
         >
-          {filteredMarkers.map((marker, index) => (
-            <Marker key={index} position={marker.position} icon={marker.icon} />
-          ))}
+          {filteredMarkers.map((marker, index) => {
+            if (Array.isArray(marker.position)) {
+              // Handle array of positions
+              return marker.position.map((position, positionIndex) => (
+                <Marker key={`${index}-${positionIndex}`} position={position} icon={marker.icon} />
+              ));
+            } else {
+              // Single position
+              return <Marker key={index} position={marker.position} icon={marker.icon} />;
+            }
+          })}
         </GoogleMap>
       </LoadScript>
     </div>
