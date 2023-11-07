@@ -4,6 +4,7 @@ import SignIn from "./components/LoginForm";
 import { useSelector, useDispatch } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer";
 import { initializeUsers, setUser } from "./reducers/userReducer";
+import { initializeProducts, setProducts } from "./reducers/productReducer";
 import BlogList from "./components/BlogList";
 import {
   BrowserRouter as Router,
@@ -17,6 +18,7 @@ import { Navigate } from "react-router-dom";
 import { initializeAllUsers } from "./reducers/allUsersReducer";
 import BlogView from "./components/BlogView";
 import UserView from "./components/UserView";
+import ProductView from "./components/ProductView";
 import ExampleBlog from "./components/ExampleBlog";
 import RegisterUser from "./components/RegisterUser";
 import About from "./components/About";
@@ -30,7 +32,7 @@ const App = () => {
   const user = useSelector((state) => state.users);
   const blogs = useSelector((state) => state.blogs);
   const allUsers = useSelector((state) => state.allUsers);
-  const products = useSelector((state) => state.products);
+  const products = useSelector((state) => state.product.products);
   const [theme, setTheme] = useState(
     localStorage.getItem("color-theme")
       ? JSON.parse(localStorage.getItem("color-theme"))
@@ -49,6 +51,10 @@ const App = () => {
     dispatch(initializeAllUsers());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(initializeProducts());
+  }, [dispatch]);
+
   const match = useMatch("/posts/:id");
   const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null;
   const match2 = useMatch("/posts/edit/:id");
@@ -60,6 +66,13 @@ const App = () => {
   const userInView = match1
     ? allUsers.find((user) => user.username === match1.params.id)
     : null;
+
+  const matchProduct = useMatch("/products/:id");
+  const product = matchProduct ? (products && products.find((product) => product.id === matchProduct.params.id)) : null;
+  // const matchProductEdit = useMatch("/products/edit/:id");
+  // const productEdit = matchProductEdit
+  //   ? products.find((product) => product.id === matchProductEdit.params.id)
+  //   : null;
 
   const handleThemeSwitch = (event) => {
     event.preventDefault();
@@ -98,6 +111,7 @@ const App = () => {
             <Route path="*" element={<ErrorPage />} />
             <Route path="/scanner" element={<Scanner />} />
             <Route path="/posts/edit/:id" element={<BlogEdit blog={blog1} />} />
+            <Route path="/products/:id" element={<ProductView product={product} />} />
           </Routes>
         </div>
         <Notif />

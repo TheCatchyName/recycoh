@@ -47,7 +47,7 @@ const Product = ({ product }) => {
 
   return (
     //TODO: Make the link here click into adding a new recycling entry
-    <Card className="mb-4" href={`/posts/${product.id}`}>
+    <Card className="mb-4" href={`/products/${product.id}`}>
       <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         {product.brand} - {product.name} {product.category}
       </h5>
