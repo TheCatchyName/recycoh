@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 const MapWithFilter = () => {
   const [map, setMap] = useState(null);
@@ -34,6 +34,25 @@ const MapWithFilter = () => {
   };
 
   const [activeMarker, setActiveMarker] = useState(null);
+
+  const Tooltip = ({ marker }) => {
+    const position = marker.position;
+
+    const tooltipStyle = {
+      position: 'absolute',
+      background: 'white',
+      padding: '5px',
+      borderRadius: '5px',
+      top: '80px',
+      left: '10px',
+    };
+
+    return (
+      <div style={tooltipStyle}>
+        {marker.name}
+      </div>
+    );
+  };
 
   const handleMarkerClick = (marker) => {
     setActiveMarker(marker === activeMarker ? null : marker);
@@ -252,13 +271,7 @@ const MapWithFilter = () => {
                   position={position}
                   icon={marker.icon}
                   onClick={() => handleMarkerClick({ position, name: marker.name })}
-                >
-                  {activeMarker?.position === position && (
-                    <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-                      <div>{marker.name}</div>
-                    </InfoWindow>
-                  )}
-                </Marker>
+                />
               ));
             } else {
               // Single position
@@ -268,16 +281,11 @@ const MapWithFilter = () => {
                   position={marker.position}
                   icon={marker.icon}
                   onClick={() => handleMarkerClick({ position: marker.position, name: marker.name })}
-                >
-                  {activeMarker?.position === marker.position && (
-                    <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-                      <div>{marker.name}</div>
-                    </InfoWindow>
-                  )}
-                </Marker>
+                />
               );
             }
           })}
+          {activeMarker && <Tooltip marker={activeMarker} />}
         </GoogleMap>
       </LoadScript>
     </div>
