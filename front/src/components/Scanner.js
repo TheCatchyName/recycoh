@@ -4,6 +4,7 @@ import NewProduct from "./NewProduct";
 import Product from "./Product";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProductsByBarcode } from "../reducers/productReducer";
+import { Button, Spinner } from "flowbite-react";
 
 const Scanner = () => {
   const [scannedBarcode, setScannedBarcode] = useState("");
@@ -38,12 +39,15 @@ const Scanner = () => {
       ) : (
         <div>
           {isLoading ? (
-            <p>Loading...</p>
+            <Spinner/>
           ) : (
             <>
               {products.length > 0 ? (
                 products.map((product) => (
-                  <Product key={product.id} product={product} />
+                  <div className="dark:bg-gray-800 py-1">
+                    <Product key={product.id} product={product} />
+                    <Button  href={`/recycle/${product.id}`}> Recycle this product </Button>
+                    </div>
                 ))
               ) : <NewProduct barcode={scannedBarcode} />}
             </>

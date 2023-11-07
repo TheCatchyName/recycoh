@@ -25,6 +25,7 @@ import About from "./components/About";
 import ErrorPage from "./components/ErrorPage";
 import BlogEdit from "./components/BlogEdit";
 import Scanner from "./components/Scanner";
+import NewRecycle from "./components/NewRecycle"
 
 const App = () => {
   const dispatch = useDispatch();
@@ -73,6 +74,8 @@ const App = () => {
   // const productEdit = matchProductEdit
   //   ? products.find((product) => product.id === matchProductEdit.params.id)
   //   : null;
+  const matchProductToRecycle = useMatch("/recycle/:id");
+  const productToRecycle = matchProductToRecycle ? (products && products.find((product) => product.id === matchProductToRecycle.params.id)) : null;
 
   const handleThemeSwitch = (event) => {
     event.preventDefault();
@@ -112,6 +115,7 @@ const App = () => {
             <Route path="/scanner" element={<Scanner />} />
             <Route path="/posts/edit/:id" element={<BlogEdit blog={blog1} />} />
             <Route path="/products/:id" element={<ProductView product={product} />} />
+            <Route path="/recycle/:id" element={<NewRecycle props={productToRecycle} />} />
           </Routes>
         </div>
         <Notif />
