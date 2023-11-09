@@ -9,6 +9,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Comment from "./Comment";
 import BlogFooter from "./BlogFooter";
+import RecyclableComponent from "./RecyclableComponent"; // Import the newly created component
+
 
 const ProductView = ({ product }) => {
   console.log("page load");
@@ -69,32 +71,6 @@ const ProductView = ({ product }) => {
     }
   };
 
-  const commentFormSubmit = (event) => {
-    event.preventDefault();
-    setNewComment("");
-    handleComment(newComment, product.id);
-  };
-
-  const handleComment = async (comment, id) => {
-    if (!user) {
-      navigate("/login");
-    }
-    try {
-      await dispatch(commentProduct(comment, id));
-      const notif1 = {
-        message: "Comment added successfully",
-        type: "success",
-      };
-      dispatch(setNotification(notif1, 2500));
-    } catch (error) {
-      const notif2 = {
-        message: error.message,
-        type: "failure",
-      };
-      dispatch(setNotification(notif2, 2500));
-    }
-  };
-
   return (
     <div className="">
       <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900">
@@ -122,22 +98,26 @@ const ProductView = ({ product }) => {
                       Posted on{" "}
                       {new Date(product.dateCreated).toLocaleDateString("en-GB")}
                     </p>
-                    <p className="inline mr-2 text-sm font-light text-gray-500 dark:text-gray-400">
-                      {product.likes} {product.likes === 1 ? "like" : "likes"}
-                    </p>{" "}
-                    <p className="inline  text-sm font-light text-gray-500 dark:text-gray-400">
-                      {comments.length}{" "}
-                      {comments.length === 1 ? "comment" : "comments"}
+                    <p className="text-base text-gray-800 dark:text-gray-400">
+                      Brand: {product.brand}
                     </p>
-                    <div className="flex flex-wrap items-center gap-2 mt-6">
-                      <Button onClick={() => handleUpdateProduct(product)}>
-                        <FavoriteIcon className="h-6 w-6" />
-                      </Button>
+                    <p className="text-base text-gray-800 dark:text-gray-400">
+                      Category: {product.category}
+                    </p>
+                    {product.components && product.components.length > 0 && (
+                      <div className="mb-4">
+                        <h2 className="text-2xl font-bold">Recyclable Components</h2>
+                        {product.components.map((component, index) => (
+                          <RecyclableComponent key={index} componentName={component} />
+                        ))}
+                      </div>
+                    )}
+                    {/* <div className="flex flex-wrap items-center gap-2 mt-6">
                       {user &&
                       (user.id === product.user.id || user.id === product.user) ? (
                         <>
                           <Button
-                            href={`/posts/edit/${product.id}`}
+                            href={`/products/edit/${product.id}`}
                             color="warning"
                           >
                             <EditIcon className="h-6 w-6" />
@@ -150,7 +130,7 @@ const ProductView = ({ product }) => {
                           </Button>
                         </>
                       ) : null}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </address>
