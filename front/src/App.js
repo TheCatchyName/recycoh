@@ -26,6 +26,7 @@ import ErrorPage from "./components/ErrorPage";
 import BlogEdit from "./components/BlogEdit";
 import Scanner from "./components/Scanner";
 import NewRecycle from "./components/NewRecycle"
+import { initializeRecycles } from "./reducers/recycleReducer";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,14 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeUsers());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(initializeProducts());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(initializeRecycles());
   }, [dispatch]);
 
   useEffect(() => {
