@@ -26,19 +26,21 @@ const Scanner = () => {
     }
   }, [scannedBarcode, dispatch]);
 
+  useEffect(() => {
+    if (scannedBarcode !== "" && products.length === 0) {
+      setShowNewProductForm(true);
+    }
+  }, [scannedBarcode, products]);
+
   const handleCreateNewProduct = () => {
     setShowNewProductForm(true);
   };
-
-  if (scannedBarcode !== "" && products.length === 0) {
-    setShowNewProductForm(true);
-  }
 
   return (
     <div className="dark:bg-gray-800 py-1">
       {scannedBarcode === "" ? (
         <BarcodeScannerComponent
-          facingMode="user" // or environment for rear camera
+          facingMode="user"
           width={500}
           height={500}
           onUpdate={(err, result) => {
@@ -54,22 +56,20 @@ const Scanner = () => {
           ) : (
             <>
               {products.length > 0 ? (
-                <>
-                  <div className="flex flex-wrap justify-center space-x-4">
-                    {products.map((product) => (
-                      <div className="dark:bg-gray-800 py-1" key={product.id}>
-                        <Product product={product} />
-                        <Button href={`/recycle/${product.id}`}> Recycle this product </Button>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="dark:bg-gray-800 py-1 justify-center space-x-4">
-                    <Button className="mt-4" onClick={handleCreateNewProduct}> Create new product </Button>
-                  </div>
-                </>
+                <div className="flex flex-wrap justify-center space-x-4">
+                  {products.map((product) => (
+                    <div className="dark:bg-gray-800 py-1" key={product.id}>
+                      <Product product={product} />
+                      <Button href={`/recycle/${product.id}`}> Recycle this product </Button>
+                    </div>
+                  ))}
+                </div>
               ) : (
-                <Spinner/>
+                <Spinner />
               )}
+              <div className="dark:bg-gray-800 py-1 justify-center space-x-4">
+                <Button className="mt-4" onClick={handleCreateNewProduct}> Create new product </Button>
+              </div>
             </>
           )}
         </div>

@@ -4,6 +4,7 @@ import blogReducer from "../reducers/blogReducer";
 import userReducer from "../reducers/userReducer";
 import allUsersReducer from "../reducers/allUsersReducer";
 import productReducer from "../reducers/productReducer";
+import recycleReducer from "../reducers/recycleReducer";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     users: userReducer,
     allUsers: allUsersReducer,
     product: productReducer,
+    recycle: recycleReducer
   },
 });
 
