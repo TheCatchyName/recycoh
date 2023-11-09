@@ -55,10 +55,13 @@ const NewProduct = (props) => {
 
   // Options for recyclable components
   const recyclableOptions = [
-    "PET Plastic Bottle",
-    "Aluminium Can",
-    "Aluminium Can Tab",
-    "Plastic Bottle Cap",
+    "Plastic - PET Bottle",
+    "Plastic - Bottle Cap",
+    "Aluminium - Can",
+    "Aluminium - Can Tab",
+    "Electronics - Circuit Board",
+    "Cardboard - Box",
+    "Cardboard - Carton",
   ];
 
   const handleCheckboxChange = (e) => {
