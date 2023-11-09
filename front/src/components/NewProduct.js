@@ -40,8 +40,8 @@ const NewProduct = (props) => {
         message: `Product was successfully added`,
         type: "success",
       };
-      await dispatch(createProduct(productObject));
-      navigate("/");
+      const newProduct = await dispatch(createProduct(productObject));
+      navigate(`/recycle/${newProduct.id}`);
 
       dispatch(setNotification(notif1, 2500));
     } catch (exception) {

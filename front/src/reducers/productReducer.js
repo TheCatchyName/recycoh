@@ -10,8 +10,8 @@ const productSlice = createSlice({
   },
   reducers: {
     create(state, action) {
-      const product = action.payload;
-      state.push(product);
+      // const product = action.payload;
+      state.products = [...state.products, action.payload]; // Add the new product to the products array
     },
     setProducts(state, action) {
       state.products = action.payload;
@@ -43,7 +43,7 @@ const productSlice = createSlice({
 
     productsRequestFailure(state, action) {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload.message  ;
     },
   },
 });
@@ -71,7 +71,10 @@ export const initializeProducts = () => {
 export const createProduct = (product) => {
   return async (dispatch) => {
     const newProduct = await productService.create(product);
+    console.log("reducer here")
+    console.log(newProduct)
     dispatch(create(newProduct));
+    return newProduct
   };
 };
 
