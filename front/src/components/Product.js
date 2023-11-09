@@ -13,7 +13,7 @@ const Product = ({ product }) => {
         {product.name}
       </h5>
       <p className="font-normal text-gray-700 dark:text-gray-400">{product.category} from {product.brand}</p>
-      <p className="font-normal text-gray-700 dark:text-gray-400">components go here</p>
+      <p className="font-normal text-gray-700 dark:text-gray-400">{product.components}</p>
     </Card>
   );
 };

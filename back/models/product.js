@@ -22,6 +22,9 @@ const productSchema = new mongoose.Schema({
     ref: "User",
   },
 //   components: [componentSchema]
+  components: [{
+    type: String
+  }],
 });
 productSchema.set("toJSON", {
   transform: (document, returnedObject) => {

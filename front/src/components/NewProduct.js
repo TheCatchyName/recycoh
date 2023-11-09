@@ -12,6 +12,7 @@ const NewProduct = (props) => {
   const [newBrand, setNewBrand] = useState("");
 //   const [newBarcode, setNewBarcode] = useState("");
   const [newCategory, setNewCategory] = useState("");
+  const [recyclableComponents, setRecyclableComponents] = useState([]);
 
   const navigate = useNavigate();
 
@@ -23,12 +24,14 @@ const NewProduct = (props) => {
       category: newCategory,
       dateCreated: new Date(),
       barcode: props.barcode,
+      recyclableComponents: recyclableComponents, // Add selected recyclable components to productObject
     };
     addNewProduct(productObject);
     setNewBrand("");
     setNewName("");
     // setNewBarcode("");
     setNewCategory("");
+    setRecyclableComponents([]); // Clear the selected recyclable components
   };
 
   const addNewProduct = async (productObject) => {
@@ -47,6 +50,31 @@ const NewProduct = (props) => {
         type: "failure",
       };
       dispatch(setNotification(notif2, 2500));
+    }
+  };
+
+  // Options for recyclable components
+  const recyclableOptions = [
+    "PET Plastic Bottle",
+    "Aluminium Can",
+    "Aluminium Can Tab",
+    "Plastic Bottle Cap",
+  ];
+
+  const handleCheckboxChange = (e) => {
+    const selectedComponent = e.target.value;
+    const isChecked = e.target.checked;
+
+    if (isChecked) {
+      // If checked, add the selected recyclable component
+      setRecyclableComponents([...recyclableComponents, selectedComponent]);
+    } else {
+      // If unchecked, remove the selected recyclable component
+      setRecyclableComponents(
+        recyclableComponents.filter(
+          (component) => component !== selectedComponent
+        )
+      );
     }
   };
 
@@ -108,6 +136,20 @@ const NewProduct = (props) => {
                     placeholder="Category"
                     onChange={({ target }) => setNewCategory(target.value)}
                   />
+                </div>
+                <div>
+                  <p>Select recyclable components:</p>
+                  {recyclableOptions.map((option, index) => (
+                    <label key={index} className="block">
+                      <input
+                        type="checkbox"
+                        value={option}
+                        checked={recyclableComponents.includes(option)}
+                        onChange={handleCheckboxChange}
+                      />
+                      {option}
+                    </label>
+                  ))}
                 </div>
 
                 <Button className="mt-4 w-24" type="submit">

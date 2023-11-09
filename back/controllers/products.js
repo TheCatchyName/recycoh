@@ -72,6 +72,7 @@ productRouter.post("/", async (request, response, next) => {
     barcode: body.barcode,
     // comments: body.comments,
     user: user._id,
+    components: body.recyclableComponents
   });
   console.log("product obj created")
   try {
