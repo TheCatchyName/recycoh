@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import BlogFooter from "./BlogFooter";
 import Comment from "./Comment";
+import Product from "./Product";
 
 const BlogView = ({ blog }) => {
   console.log(blog);
@@ -144,7 +145,7 @@ const BlogView = ({ blog }) => {
                         <FavoriteIcon className="h-6 w-6" />
                       </Button>
                       {user &&
-                      (user.id === blog.user.id || user.id === blog.user) ? (
+                        (user.id === blog.user.id || user.id === blog.user) ? (
                         <>
                           <Button
                             href={`/posts/edit/${blog.id}`}
@@ -172,34 +173,39 @@ const BlogView = ({ blog }) => {
               {blog.content}
             </p>
 
-            <div className="flex justify-between items-center mt-8 mb-6">
-              <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
-                Tag (If Applicable)
-              </h2>
-            </div>
             {blog.tag && (
-              <p>
-                <Link to={`/tag/${blog.tag}`}>
-                  <Button
-                    style={{ backgroundColor: "green", color: "white" }}
-                    className="bg-green-500 text-white py-1 px-2 rounded-md text-sm"
-                  >
-                    {blog.tag}
-                  </Button>
-                </Link>
-              </p>
+              <>
+
+                <div className="flex justify-between items-center mt-8 mb-6">
+                  <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
+                    Tag
+                  </h2>
+                </div>
+                <p>
+                  <Link to={`/tag/${blog.tag}`}>
+                    <Button
+                      style={{ backgroundColor: "green", color: "white" }}
+                      className="bg-green-500 text-white py-1 px-2 rounded-md text-sm"
+                    >
+                      {blog.tag}
+                    </Button>
+                  </Link>
+                </p>
+              </>
             )}
-            <div className="flex justify-between items-center mt-8 mb-6">
-              <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
-                Product (If Applicable)
-              </h2>
-            </div>
             {blog.PID && (
-              <p>
-                <Button className="text-white py-1 px-2 rounded-md text-sm">
-                  {blog.PID}
-                </Button>
-              </p>
+              <>
+                <div className="flex justify-between items-center mt-8 mb-6">
+                  <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
+                    Product
+                  </h2>
+                </div>
+                <p>
+                  <Button href={`/products/${blog.PID}`} className="text-white py-1 px-2 rounded-md text-sm">
+                    View Product
+                  </Button>
+                </p>
+              </>
             )}
 
             <section className="not-format">
