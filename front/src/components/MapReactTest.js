@@ -9,10 +9,15 @@ const MapReactTest = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [initialCenter] = useState({ lat: 1.2964202165603638, lng: 103.85188293457031 });
   const [initialZoom] = useState(15);
+  const pageStyle = {
+    backgroundColor: 'green'
+  }
   const filterMenuStyle = {
-    backgroundColor: '#f7f7f7',
+    backgroundColor: 'green',
     padding: '10px',
     border: '1px solid #ccc',
+    borderColor: 'green',
+    color: 'white',
     borderRadius: '5px',
     boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
     marginRight: '20px',
@@ -252,7 +257,7 @@ const MapReactTest = () => {
 
 
   return (
-    <div>
+    <div style={pageStyle}>
       <div id="filterMenu" style={filterMenuStyle}>
         <div id="filterHeader" style={filterHeaderStyle}>Filter Menu</div>
         <label style={filterOptionStyle}>
@@ -303,7 +308,7 @@ const MapReactTest = () => {
       </div>
       <LoadScript googleMapsApiKey="AIzaSyCaiFYrSvV6tEk9ZqKToEXa2-orShEEuq4">
         <GoogleMap
-          mapContainerStyle={{ height: '600px', width: '100%' }}
+          mapContainerStyle={{ height: '620px', width: '100%' }}
           center={initialCenter}
           zoom={initialZoom}
           onLoad={(map) => setMap(map)}
