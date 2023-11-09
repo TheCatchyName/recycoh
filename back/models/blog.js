@@ -20,6 +20,7 @@ const blogSchema = new mongoose.Schema({
   dateCreated: Date,
   likes: Number,
   tag: String,
+  PID: String,
   comments: [commentSchema],
   user: {
     type: mongoose.Schema.Types.ObjectId,
