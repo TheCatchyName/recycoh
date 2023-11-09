@@ -7,7 +7,7 @@ import { BarChart } from '@mui/x-charts/BarChart';
 
 const UserView = ({ userInView }) => {
   if (userInView === undefined) {
-    return null;
+    return <Spinner/>;
   }
   const totalVotes = userInView.blogs
     .map((blog) => blog.likes)
@@ -22,7 +22,6 @@ const UserView = ({ userInView }) => {
           label: 'Count',
         },
       ],
-      width: 500,
       height: 300,
     };
   
