@@ -52,9 +52,6 @@ const App = () => {
     dispatch(initializeAllUsers());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(initializeProducts());
-  }, [dispatch]);
 
   const match = useMatch("/posts/:id");
   const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null;

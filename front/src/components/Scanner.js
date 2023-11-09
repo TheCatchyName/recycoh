@@ -9,9 +9,9 @@ import { Button, Spinner } from "flowbite-react";
 const Scanner = () => {
   const [scannedBarcode, setScannedBarcode] = useState("");
   const [showNewProductForm, setShowNewProductForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products) || [];
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (scannedBarcode && scannedBarcode !== "") {
@@ -27,10 +27,10 @@ const Scanner = () => {
   }, [scannedBarcode, dispatch]);
 
   useEffect(() => {
-    if (scannedBarcode !== "" && products.length === 0) {
+    if (scannedBarcode !== "" && products.length === 0 && !isLoading) {
       setShowNewProductForm(true);
     }
-  }, [scannedBarcode, products]);
+  }, [scannedBarcode, products, isLoading]);
 
   const handleCreateNewProduct = () => {
     setShowNewProductForm(true);
