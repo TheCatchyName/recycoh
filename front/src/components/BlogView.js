@@ -170,8 +170,33 @@ const BlogView = ({ blog }) => {
               align="justify"
             >
               {blog.content}
-              {blog.tag}
             </p>
+
+            <div className="flex justify-between items-center mt-8 mb-6">
+              <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
+                Tags
+              </h2>
+            </div>
+            <p>
+              <Button
+                style={{ backgroundColor: "green", color: "white" }}
+                className="bg-green-500 text-white py-1 px-2 rounded-md text-sm"
+              >
+                {blog.tag}
+              </Button>
+            </p>
+            <div className="flex justify-between items-center mt-8 mb-6">
+              <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
+                Product (If Applicable)
+              </h2>
+            </div>
+            {blog.PID && (
+              <p>
+                <Button className="text-white py-1 px-2 rounded-md text-sm">
+                  {blog.PID}
+                </Button>
+              </p>
+            )}
 
             <section className="not-format">
               <div className="flex justify-between items-center mt-8 mb-6">
