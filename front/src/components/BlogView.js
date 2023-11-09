@@ -179,7 +179,7 @@ const BlogView = ({ blog }) => {
             </div>
             {blog.tag && (
               <p>
-                <Link to={`/${blog.tag}`}>
+                <Link to={`/tag/${blog.tag}`}>
                   <Button
                     style={{ backgroundColor: "green", color: "white" }}
                     className="bg-green-500 text-white py-1 px-2 rounded-md text-sm"
