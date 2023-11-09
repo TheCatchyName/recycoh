@@ -10,8 +10,7 @@ const recycleSlice = createSlice({
   },
   reducers: {
     create(state, action) {
-      const recycle = action.payload;
-      state.push(recycle);
+      state.recycles = [...state.recycles, action.payload];
     },
     setRecycles(state, action) {
       state.recycles = action.payload;
