@@ -112,6 +112,7 @@ const ProductView = ({ product }) => {
                         ))}
                       </div>
                     )}
+                    <Button href={`/recycle/${product.id}`}> Recycle this product </Button>
                     {/* <div className="flex flex-wrap items-center gap-2 mt-6">
                       {user &&
                       (user.id === product.user.id || user.id === product.user) ? (
