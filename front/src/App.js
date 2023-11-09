@@ -97,6 +97,10 @@ const App = () => {
             <Route path="*" element={<ErrorPage />} />
             <Route path="/scanner" element={<Scanner />} />
             <Route path="/posts/edit/:id" element={<BlogEdit blog={blog1} />} />
+            <Route
+              path="/:tag"
+              element={<BlogList user={user} setUser={setUser} />}
+            />
           </Routes>
         </div>
         <Notif />

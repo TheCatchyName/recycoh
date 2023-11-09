@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Blog from "../components/Blog";
 import { Select } from "flowbite-react";
+import { useLocation, useParams } from "react-router-dom";
 
 const BlogList = () => {
   const blogs = useSelector((state) => state.blogs);
   const [sortBy, setSorting] = useState({ criteria: "likes", order: "desc" });
   const [searchQuery, setSearchQuery] = useState("");
+  const [tagFilter, setTagFilter] = useState("");
   const blogs1 = [...blogs];
+  const location = useLocation();
+  const params = useParams();
+  const tag = params.tag;
+
+  useEffect(() => {
+    // console.log("Tag from URL:", tag);
+    setTagFilter(tag || "");
+  }, [location.search, tag]);
 
   const sortBlogs = (criteria, order, blogs) => {
     const sortedBlogs = [...blogs];
@@ -51,7 +61,13 @@ const BlogList = () => {
     const title = blog.title.toLowerCase();
     const content = blog.content.toLowerCase();
     const query = searchQuery.toLowerCase();
-    return title.includes(query) || content.includes(query);
+    const tagMatch = tagFilter
+      ? blog.tag?.toLowerCase() === tagFilter.toLowerCase()
+      : true;
+    // console.log("Blog Tag:", blog.tag);
+    // console.log("Tag Filter:", tagFilter);
+    // console.log("Tag Match:", tagMatch);
+    return tagMatch && (title.includes(query) || content.includes(query));
   });
 
   const sortedBlogs = sortBlogs(sortBy.criteria, sortBy.order, filteredBlogs);
@@ -62,7 +78,7 @@ const BlogList = () => {
         <div className="flex justify-between px-4 mx-auto max-w-6xl ">
           <article className="mx-auto w-full max-w-6xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
             <header className="mb-4 lg:mb-6 not-format">
-              <h1 class="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">
+              <h1 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">
                 Posts
               </h1>
 

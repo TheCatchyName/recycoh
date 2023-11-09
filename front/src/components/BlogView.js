@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { setNotification } from "../reducers/notificationReducer";
 import { updateBlog, deleteBlog, commentBlog } from "../reducers/blogReducer";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import BlogFooter from "./BlogFooter";
 import Comment from "./Comment";
 
@@ -174,17 +174,21 @@ const BlogView = ({ blog }) => {
 
             <div className="flex justify-between items-center mt-8 mb-6">
               <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
-                Tags
+                Tag (If Applicable)
               </h2>
             </div>
-            <p>
-              <Button
-                style={{ backgroundColor: "green", color: "white" }}
-                className="bg-green-500 text-white py-1 px-2 rounded-md text-sm"
-              >
-                {blog.tag}
-              </Button>
-            </p>
+            {blog.tag && (
+              <p>
+                <Link to={`/${blog.tag}`}>
+                  <Button
+                    style={{ backgroundColor: "green", color: "white" }}
+                    className="bg-green-500 text-white py-1 px-2 rounded-md text-sm"
+                  >
+                    {blog.tag}
+                  </Button>
+                </Link>
+              </p>
+            )}
             <div className="flex justify-between items-center mt-8 mb-6">
               <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
                 Product (If Applicable)
