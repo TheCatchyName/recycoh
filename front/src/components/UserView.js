@@ -2,6 +2,7 @@ import { Spinner, Footer } from "flowbite-react";
 import blogReducer from "../reducers/blogReducer";
 import users from "../services/users";
 import Blog from "./Blog";
+import Product from "./Product"
 
 const UserView = ({ userInView }) => {
   if (userInView === undefined) {
@@ -26,6 +27,19 @@ const UserView = ({ userInView }) => {
         {userInView.blogs.map((blog) => (
           <Blog key={blog.id} blog={blog} />
         ))}
+        <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+          Products added by {userInView.username}
+        </h2>
+        {userInView.products.map((product) => (
+          <Product key={product.id} product={product} />
+        ))}
+        <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+          Items recycled by {userInView.username}
+        </h2>
+        {/* {userInView.recycles.map((recycle) => (
+          // <Blog key={blog.id} blog={blog} />
+          <p>{recycle}</p>
+        ))} */}
       </div>
     </section>
   );
