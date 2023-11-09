@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-const MapWithFilter = () => {
+const MapReactTest = () => {
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [filteredMarkers, setFilteredMarkers] = useState([]);
@@ -36,8 +36,8 @@ const MapWithFilter = () => {
   const [activeMarker, setActiveMarker] = useState(null);
 
   const Tooltip = ({ marker }) => {
-    const position = marker.position;
-
+    const acceptedWaste = marker.type;
+  
     const tooltipStyle = {
       position: 'absolute',
       background: 'white',
@@ -45,14 +45,29 @@ const MapWithFilter = () => {
       borderRadius: '5px',
       top: '80px',
       left: '10px',
+      width: '200px', // Fixed width for consistency
+      textAlign: 'left', // Left-align text
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
+      zIndex: 999, // Ensure the tooltip is above other elements
     };
-
+  
     return (
       <div style={tooltipStyle}>
-        {marker.name}
+        <b>{marker.name}</b>
+        <br></br><br></br>
+        <b>Accepted Waste:</b>
+        {acceptedWaste.length > 0 && (
+          <ul>
+            {acceptedWaste.map((waste, index) => (
+              <li key={index}>{waste}</li>
+            ))}
+          </ul>
+        )}
       </div>
     );
   };
+  
+
 
   const handleMarkerClick = (marker) => {
     setActiveMarker(marker === activeMarker ? null : marker);
@@ -116,13 +131,74 @@ const MapWithFilter = () => {
         name: "Battery & Bulb Bin", type: ['Batteries', 'Lamps'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/batterybulb.tmb-thumb36.png" }
       },
       {
-        position: { lat: 1.379091351, lng: 103.7728811 }, name: "Battery-only Bin", type: ['Batteries'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/battery9bb6a94ee027494dac3f729c772dcc8a.tmb-thumb36.png" }
+        position: [{ lat: 1.379091351, lng: 103.7728811 },
+        { lat: 1.3386953096708119, lng: 103.6777614102782 },
+        { lat: 1.3656713226433657, lng: 103.76629557309047 },
+        { lat: 1.3329538706345716, lng: 103.90209367595459 },
+        { lat: 1.3697464813698566, lng: 103.93781840621934 },
+        { lat: 1.3605176234002316, lng: 103.98471658479635 },
+        { lat: 1.3908731025517127, lng: 103.86963174803749 },
+        { lat: 1.3495539517769997, lng: 103.77518234154424 },
+        { lat: 1.3418903475430883, lng: 103.73589455457935 },
+        { lat: 1.3849850529217018, lng: 103.73764316770892 },
+        { lat: 1.2864280944626334, lng: 103.84518654985011 },
+        { lat: 1.3015448380906685, lng: 103.863629732283 },
+        { lat: 1.304929469975929, lng: 103.83403623884702 },
+        { lat: 1.2941403299553784, lng: 103.85678953339759 },
+        { lat: 1.3056592410537105, lng: 103.88229695500772 },
+        { lat: 1.3128165988254057, lng: 103.90191847831191 },
+        { lat: 1.3259053959383822, lng: 103.92423966074838 },
+        { lat: 1.4362791860657502, lng: 103.79367580198402 },
+        { lat: 1.4213599379687483, lng: 103.83347120559105 },
+        { lat: 1.2653155662574533, lng: 103.8203383849596 }],
+        name: "Battery-only Bin", type: ['Batteries'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/battery9bb6a94ee027494dac3f729c772dcc8a.tmb-thumb36.png" }
       },
       {
-        position: { lat: 1.346115482, lng: 103.7201662 }, name: "E-Waste Collection Drive", type: ['Regulated consumer products'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/edrive3b291104da544e2f9f6c5ae1d98fcadf.tmb-thumb36.png" }
+        position: [{ lat: 1.346115482, lng: 103.7201662 },
+        { lat: 1.3141471946460848, lng: 103.85083975007579 },
+        { lat: 1.317015944905543, lng: 103.85994339900608 },
+        { lat: 1.3185426101759352, lng: 103.87946433333023 },
+        { lat: 1.317634537343915, lng: 103.87960280946754 },
+        { lat: 1.3274408895460936, lng: 103.92214620185256 },
+        { lat: 1.3521848842450543, lng: 103.88046322299385 },
+        { lat: 1.3443904996326967, lng: 103.8552130369349 },
+        { lat: 1.297928884148601, lng: 103.8115631642321 },
+        { lat: 1.3080237088561524, lng: 103.76233601446387 },
+        { lat: 1.284348412200791, lng: 103.8111066459818 },
+        { lat: 1.2832813878315894, lng: 103.82574497144715 },
+        { lat: 1.286895138737623, lng: 103.83809333374639 },
+        { lat: 1.353980086024887, lng: 103.72487843545089 },
+        { lat: 1.3825219553652288, lng: 103.74607545891602 },
+        { lat: 1.3954104378804562, lng: 103.7701927368518 },
+        { lat: 1.3862042052062766, lng: 103.76661606409631 },
+        { lat: 1.3430660470097475, lng: 103.7383023910668 },
+        { lat: 1.3604029320534872, lng: 103.69208586531053 },
+        { lat: 1.437866814082076, lng: 103.78177461910043 },
+        { lat: 1.44068674215011, lng: 103.80007796225478 },
+        { lat: 1.4422234189868959, lng: 103.83769492992181 },
+        { lat: 1.4278536117970555, lng: 103.83516684364207 },
+        { lat: 1.4340046570743594, lng: 103.84971563959415 },
+        { lat: 1.3953456002123006, lng: 103.87100503902869 },
+        { lat: 1.3980079065834583, lng: 103.89529567529165 },
+        { lat: 1.360000868752651, lng: 103.94512255619247 },
+        { lat: 1.307220577388897, lng: 103.91476445578849 }],
+        name: "E-Waste Collection Drive", type: ['Regulated consumer products'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/edrive3b291104da544e2f9f6c5ae1d98fcadf.tmb-thumb36.png" }
       },
       {
-        position: { lat: 1.290661046, lng: 103.8068437 }, name: "Non-Regulated E-Waste Bin", type: ['Non-regulated electronics'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/1850.tmb-thumb36.png" }
+        position: [{ lat: 1.290661046, lng: 103.8068437 },
+        { lat: 1.3187838131613638, lng: 103.92623588746011 },
+        { lat: 1.3344067889319815, lng: 103.88876149160501 },
+        { lat: 1.3659019356534816, lng: 103.86768933738864 },
+        { lat: 1.2903310863999533, lng: 103.81982886328278 },
+        { lat: 1.310422289827546, lng: 103.78556794981549 },
+        { lat: 1.3156858711003216, lng: 103.92634128585794 },
+        { lat: 1.4490975372690453, lng: 103.78960892857249 },
+        { lat: 1.4442286033216312, lng: 103.77469954636365 },
+        { lat: 1.3707384061958603, lng: 103.844225864698 },
+        { lat: 1.3555407784911155, lng: 103.94696835641263 },
+        { lat: 1.3928791560594111, lng: 103.74673128167302 },
+        { lat: 1.3541633518361171, lng: 103.7048910423688 }],
+        name: "Non-Regulated E-Waste Bin", type: ['Non-regulated electronics'], icon: { url: "https://www.nea.gov.sg/images/default-source/our-serivces/waste-management/e-waste/1850.tmb-thumb36.png" }
       },
     ];
 
@@ -218,7 +294,7 @@ const MapWithFilter = () => {
         <label style={filterOptionStyle}>
           <input
             type="checkbox"
-            value="Non-regulated eletronics"
+            value="Non-regulated electronics"
             checked={activeFilters.includes('Non-regulated electronics')}
             onChange={() => handleFilterChange('Non-regulated electronics')}
           />
@@ -262,6 +338,7 @@ const MapWithFilter = () => {
               }}
             />
           )}
+          {/* ... */}
           {filteredMarkers.map((marker, index) => {
             if (Array.isArray(marker.position)) {
               // Handle array of positions
@@ -270,7 +347,7 @@ const MapWithFilter = () => {
                   key={`${index}-${positionIndex}`}
                   position={position}
                   icon={marker.icon}
-                  onClick={() => handleMarkerClick({ position, name: marker.name })}
+                  onClick={() => handleMarkerClick(marker)}
                 />
               ));
             } else {
@@ -280,7 +357,7 @@ const MapWithFilter = () => {
                   key={index}
                   position={marker.position}
                   icon={marker.icon}
-                  onClick={() => handleMarkerClick({ position: marker.position, name: marker.name })}
+                  onClick={() => handleMarkerClick(marker)}
                 />
               );
             }
@@ -292,4 +369,4 @@ const MapWithFilter = () => {
   );
 };
 
-export default MapWithFilter;
+export default MapReactTest;
