@@ -8,6 +8,7 @@ import { Button, Spinner } from "flowbite-react";
 
 const Scanner = () => {
   const [scannedBarcode, setScannedBarcode] = useState("");
+  const [showNewProductForm, setShowNewProductForm] = useState(false);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products) || [];
   const [isLoading, setIsLoading] = useState(false);
@@ -25,6 +26,14 @@ const Scanner = () => {
     }
   }, [scannedBarcode, dispatch]);
 
+  const handleCreateNewProduct = () => {
+    setShowNewProductForm(true);
+  };
+
+  if (scannedBarcode !== "" && products.length === 0) {
+    setShowNewProductForm(true);
+  }
+
   return (
     <div className="dark:bg-gray-800 py-1">
       {scannedBarcode === "" ? (
@@ -39,17 +48,28 @@ const Scanner = () => {
       ) : (
         <div>
           {isLoading ? (
-            <Spinner/>
+            <Spinner />
+          ) : showNewProductForm ? (
+            <NewProduct barcode={scannedBarcode} />
           ) : (
             <>
               {products.length > 0 ? (
-                products.map((product) => (
-                  <div className="dark:bg-gray-800 py-1">
-                    <Product key={product.id} product={product} />
-                    <Button  href={`/recycle/${product.id}`}> Recycle this product </Button>
-                    </div>
-                ))
-              ) : <NewProduct barcode={scannedBarcode} />}
+                <>
+                  <div className="flex flex-wrap justify-center space-x-4">
+                    {products.map((product) => (
+                      <div className="dark:bg-gray-800 py-1" key={product.id}>
+                        <Product product={product} />
+                        <Button href={`/recycle/${product.id}`}> Recycle this product </Button>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="dark:bg-gray-800 py-1 justify-center space-x-4">
+                    <Button className="mt-4" onClick={handleCreateNewProduct}> Create new product </Button>
+                  </div>
+                </>
+              ) : (
+                <Spinner/>
+              )}
             </>
           )}
         </div>
