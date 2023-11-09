@@ -18,6 +18,7 @@ const BlogView = ({ blog }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const blogs = useSelector((state) => state.blogs);
+  const [liked, setLiked] = useState(false);
   if (blog === undefined) {
     return <Spinner />;
   }
@@ -30,11 +31,22 @@ const BlogView = ({ blog }) => {
       navigate("/login");
     }
     try {
-      const updatedBlog = {
-        ...blogObject,
-        likes: blog.likes + 1,
-      };
+      let updatedBlog;
+
+      if (liked) {
+        updatedBlog = {
+          ...blogObject,
+          likes: blog.likes - 1,
+        };
+      } else {
+        updatedBlog = {
+          ...blogObject,
+          likes: blog.likes + 1,
+        };
+      }
+
       await dispatch(updateBlog(updatedBlog));
+      setLiked(!liked);
     } catch (error) {
       const notif = {
         message: error.response.data.error,
@@ -158,6 +170,7 @@ const BlogView = ({ blog }) => {
               align="justify"
             >
               {blog.content}
+              {blog.tag}
             </p>
 
             <section className="not-format">

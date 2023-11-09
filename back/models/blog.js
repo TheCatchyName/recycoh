@@ -19,12 +19,14 @@ const blogSchema = new mongoose.Schema({
   content: String,
   dateCreated: Date,
   likes: Number,
+  tag: String,
   comments: [commentSchema],
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
 });
+
 blogSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();

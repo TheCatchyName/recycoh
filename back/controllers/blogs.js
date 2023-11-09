@@ -52,6 +52,7 @@ blogRouter.post("/", async (request, response, next) => {
     likes: body.likes,
     comments: body.comments,
     user: user._id,
+    tag: body.tag,
   });
   try {
     const savedBlog = await blog.save();
@@ -107,6 +108,7 @@ blogRouter.put("/:id", async (request, response, next) => {
     dateCreated: body.dateCreated,
     likes: body.likes,
     comments: body.comments,
+    tag: body.tag,
   };
   try {
     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {

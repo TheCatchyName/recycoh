@@ -10,6 +10,7 @@ const NewBlog = () => {
   const dispatch = useDispatch();
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
+  const [newTag, setNewTag] = useState("");
 
   const navigate = useNavigate();
 
@@ -19,10 +20,12 @@ const NewBlog = () => {
       title: newTitle,
       content: newContent,
       dateCreated: new Date(),
+      tag: newTag,
     };
     addNewBlog(blogObject);
     setNewContent("");
     setNewTitle("");
+    setNewTag("");
   };
 
   const addNewBlog = async (blogObject) => {
@@ -80,6 +83,19 @@ const NewBlog = () => {
                     placeholder="Text"
                     onChange={({ target }) => setNewContent(target.value)}
                     rows={10}
+                  />
+                </div>
+                <div>
+                  <div className="mb-2 block">
+                    <Label htmlFor="post-tag" value="Tag of Post" />
+                  </div>
+                  <TextInput
+                    id="post-tag"
+                    type="text"
+                    placeholder="A Meaningful Tag"
+                    required={false}
+                    value={newTag}
+                    onChange={({ target }) => setNewTag(target.value)}
                   />
                 </div>
 
