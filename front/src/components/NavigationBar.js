@@ -44,13 +44,16 @@ const NavigationBar = ({ user, handleThemeSwitch, theme }) => {
       <Navbar.Toggle className="justify-left" />
       <Navbar.Collapse>
         <Navbar.Link href="/about">About this App</Navbar.Link>
+        <Navbar.Link href="/map">map here</Navbar.Link>
+        <Navbar.Link href="/mapreacttest">react map here</Navbar.Link>
+
 
         {user === null && <Navbar.Link href="/login">Create Post</Navbar.Link>}
         {user && <Navbar.Link href="/create">Create Post</Navbar.Link>}
 
         {user === null && <Navbar.Link href="/login">Scan Item</Navbar.Link>}
         {user && <Navbar.Link href="/scanner">Scan Item</Navbar.Link>}
-
+        <Navbar.Link href="/map">Find A Bin</Navbar.Link>
         {user === null && (
           <Navbar.Link className="font-bold text-sky-400" href="/login">
             Log In

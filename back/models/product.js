@@ -1,33 +1,32 @@
 const mongoose = require("mongoose");
 
-const commentSchema = new mongoose.Schema({
-  content: String,
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
+const componentSchema = new mongoose.Schema({
+  componentName: String,
+  componentMaterial: String
 });
-commentSchema.set("toJSON", {
+componentSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
   },
 });
-const blogSchema = new mongoose.Schema({
-  title: String,
-  content: String,
+const productSchema = new mongoose.Schema({
+  name: String,
+  brand: String,
+  category: String,
   dateCreated: Date,
-  likes: Number,
-  tag: String,
-  comments: [commentSchema],
+  barcode: String,
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+//   components: [componentSchema]
+  components: [{
+    type: String
+  }],
 });
-
-blogSchema.set("toJSON", {
+productSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -35,4 +34,4 @@ blogSchema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("Blog", blogSchema);
+module.exports = mongoose.model("Product", productSchema);

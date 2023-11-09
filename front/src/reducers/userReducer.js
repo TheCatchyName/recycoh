@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import blogService from "../services/blogs";
+import productService from "../services/products";
+import recycleService from "../services/recycles";
 
 const userSlice = createSlice({
   name: "users",
@@ -20,6 +22,8 @@ export const initializeUsers = () => {
       const user = JSON.parse(loggedUserJSON);
       dispatch(setUser(user));
       blogService.setToken(user.token);
+      productService.setToken(user.token);
+      recycleService.setToken(user.token);
     }
   };
 };

@@ -10,6 +10,18 @@ const userSchema = new mongoose.Schema({
       ref: 'Blog'
     }
   ],
+  products: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product'
+    }
+  ],
+  recycles: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Recycle'
+    }
+  ],
 })
 
 userSchema.set('toJSON', {
