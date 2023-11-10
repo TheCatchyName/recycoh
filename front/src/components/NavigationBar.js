@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../reducers/userReducer";
 import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import ForumIcon from "@mui/icons-material/Forum";
+import ForumIcon from "@mui/icons-material/Recycling";
 import { DarkThemeToggle } from "flowbite-react";
 import { DarkMode } from "@mui/icons-material";
 import { LightMode } from "@mui/icons-material";
@@ -38,22 +38,17 @@ const NavigationBar = ({ user, handleThemeSwitch, theme }) => {
       <Navbar.Brand href="/">
         <ForumIcon className="mr-3 h-6 sm:h-9 dark:fill-white	" />
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-          Forum App
+          Recycoh
         </span>
       </Navbar.Brand>
       <Navbar.Toggle className="justify-left" />
       <Navbar.Collapse>
-        <Navbar.Link href="/about">About this App</Navbar.Link>
-        <Navbar.Link href="/map">map here</Navbar.Link>
-        <Navbar.Link href="/mapreacttest">react map here</Navbar.Link>
-
-
         {user === null && <Navbar.Link href="/login">Create Post</Navbar.Link>}
         {user && <Navbar.Link href="/create">Create Post</Navbar.Link>}
 
         {user === null && <Navbar.Link href="/login">Scan Item</Navbar.Link>}
         {user && <Navbar.Link href="/scanner">Scan Item</Navbar.Link>}
-        <Navbar.Link href="/map">Find A Bin</Navbar.Link>
+        <Navbar.Link href="/mapreacttest">Find A Bin</Navbar.Link>
         {user === null && (
           <Navbar.Link className="font-bold text-sky-400" href="/login">
             Log In

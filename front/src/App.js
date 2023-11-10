@@ -128,6 +128,7 @@ const App = () => {
             <Route path="/products/:id" element={<ProductView product={product} />} />
             <Route path="/recycle/:id" element={<NewRecycle props={productToRecycle} />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="tag/:tag" element={<BlogList user={user} setUser={setUser} />} />
           </Routes>
         </div>
         <Notif />

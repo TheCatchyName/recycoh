@@ -4,7 +4,7 @@ const User = require("../models/user");
 
 usersRouter.get("/", async (request, response) => {
   const users = await User.find({})
-  .populate("blogs", "title content dateCreated likes tag")
+  .populate("blogs", "title content dateCreated likes tag PID")
   .populate("products", "name brand category dateCreated barcode components")
   .populate({
     path: "recycles",

@@ -6,9 +6,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { setNotification } from "../reducers/notificationReducer";
 import { updateBlog, deleteBlog, commentBlog } from "../reducers/blogReducer";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import BlogFooter from "./BlogFooter";
 import Comment from "./Comment";
+import Product from "./Product";
 
 const BlogView = ({ blog }) => {
   console.log(blog);
@@ -144,7 +145,7 @@ const BlogView = ({ blog }) => {
                         <FavoriteIcon className="h-6 w-6" />
                       </Button>
                       {user &&
-                      (user.id === blog.user.id || user.id === blog.user) ? (
+                        (user.id === blog.user.id || user.id === blog.user) ? (
                         <>
                           <Button
                             href={`/posts/edit/${blog.id}`}
@@ -170,8 +171,42 @@ const BlogView = ({ blog }) => {
               align="justify"
             >
               {blog.content}
-              {blog.tag}
             </p>
+
+            {blog.tag && (
+              <>
+
+                <div className="flex justify-between items-center mt-8 mb-6">
+                  <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
+                    Tag
+                  </h2>
+                </div>
+                <p>
+                  <Link to={`/tag/${blog.tag}`}>
+                    <Button
+                      style={{ backgroundColor: "green", color: "white" }}
+                      className="bg-green-500 text-white py-1 px-2 rounded-md text-sm"
+                    >
+                      {blog.tag}
+                    </Button>
+                  </Link>
+                </p>
+              </>
+            )}
+            {blog.PID && (
+              <>
+                <div className="flex justify-between items-center mt-8 mb-6">
+                  <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
+                    Product
+                  </h2>
+                </div>
+                <p>
+                  <Button href={`/products/${blog.PID}`} className="text-white py-1 px-2 rounded-md text-sm">
+                    View Product
+                  </Button>
+                </p>
+              </>
+            )}
 
             <section className="not-format">
               <div className="flex justify-between items-center mt-8 mb-6">

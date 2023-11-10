@@ -11,6 +11,7 @@ const BlogEdit = ({ blog }) => {
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
   const [newTag, setNewTag] = useState("");
+  const [newPID, setNewPID] = useState("");
 
   const navigate = useNavigate();
   if (blog === undefined) {
@@ -30,6 +31,7 @@ const BlogEdit = ({ blog }) => {
       content: newContent,
       dateCreated: new Date(),
       tag: newTag,
+      PID: newPID,
     };
     editNewBlog(blogObject);
     setNewContent("");
@@ -96,7 +98,10 @@ const BlogEdit = ({ blog }) => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="post-tag" value="Tag of Post" />
+                    <Label
+                      htmlFor="post-tag"
+                      value="Tag of Post (If Applicable)"
+                    />
                   </div>
                   <TextInput
                     id="post-tag"
@@ -105,6 +110,20 @@ const BlogEdit = ({ blog }) => {
                     required={false}
                     value={newTag}
                     onChange={({ target }) => setNewTag(target.value)}
+                  />
+                </div>
+
+                <div>
+                  <div className="mb-2 block">
+                    <Label htmlFor="post-PID" value="PID (If Applicable)" />
+                  </div>
+                  <TextInput
+                    id="post-PID"
+                    type="text"
+                    placeholder="A PID to Display"
+                    required={false}
+                    value={newPID}
+                    onChange={({ target }) => setNewPID(target.value)}
                   />
                 </div>
 

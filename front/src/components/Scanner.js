@@ -37,7 +37,7 @@ const Scanner = () => {
   };
 
   return (
-    <div className="dark:bg-gray-800 py-1">
+    <div className="dark:bg-gray-800 py-1 flex flex-wrap justify-center space-x-4">
       {scannedBarcode === "" ? (
         <BarcodeScannerComponent
           facingMode="user"
@@ -47,6 +47,7 @@ const Scanner = () => {
             if (result) setScannedBarcode(result.text);
           }}
         />
+        
       ) : (
         <div>
           {isLoading ? (
