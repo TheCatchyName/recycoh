@@ -105,7 +105,7 @@ const UserView = ({ userInView }) => {
     });
   
   return (
-    <section class="bg-white dark:bg-gray-900 flex flex-col h-screen">
+    <section class="bg-white dark:bg-gray-900 flex flex-col min-h-screen">
       <div class="py-20 px-0 mx-auto w-2/3	 lg:py-20">
         <h2 class="mb-4 text-5xl font-extrabold text-gray-900 dark:text-white">
           u/{userInView.username}
